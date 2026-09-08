@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>akinmoyero@bamidele:~$ — Embedded Systems Engineer</title>
+<meta name="description" content="Akinmoyero Bamidele — Embedded systems engineer, and video editor & content creator. Based in Lagos, Nigeria.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e0d;
+    --bg-panel:#0f1513;
+    --bg-panel-hi:#141c19;
+    --line:#20302b;
+    --text:#d3ddd8;
+    --text-dim:#7c8d86;
+    --text-faint:#4d5b56;
+    --green:#39ff88;
+    --green-dim:#1fa85e;
+    --cyan:#5be3ff;
+    --amber:#ffb454;
+    --red:#ff5f56;
+    --yellow:#ffbd2e;
+    --dot-green:#27c93f;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:'JetBrains Mono',monospace;
+    line-height:1.6; overflow-x:hidden; font-size:15px;
+  }
+  ::selection{ background:var(--green); color:#04140a; }
+  a{ color:inherit; text-decoration:none; }
+  img{ max-width:100%; display:block; }
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 32px; }
+  .accent{ color:var(--green); }
+  .cyan{ color:var(--cyan); }
+  .amber{ color:var(--amber); }
+  .dim{ color:var(--text-dim); }
+
+  .cursor-blink{ display:inline-block; width:.55em; height:1.05em; background:var(--green); vertical-align:text-bottom; animation:blink 1s step-end infinite; margin-left:2px; }
+  @keyframes blink{ 0%,49%{ opacity:1; } 50%,100%{ opacity:0; } }
+
+  /* ---------- reveal ---------- */
+  .reveal{ opacity:0; transform:translateY(20px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.visible{ opacity:1; transform:translateY(0); }
+
+  /* ---------- terminal window ---------- */
+  .term{
+    border:1px solid var(--line); border-radius:8px; background:var(--bg-panel);
+    box-shadow:0 30px 60px -30px rgba(0,0,0,.7);
+    overflow:hidden;
+  }
+  .term-bar{
+    display:flex; align-items:center; gap:8px; padding:11px 14px; background:var(--bg-panel-hi);
+    border-bottom:1px solid var(--line);
+  }
+  .term-dot{ width:11px; height:11px; border-radius:50%; }
+  .term-dot.r{ background:var(--red); } .term-dot.y{ background:var(--yellow); } .term-dot.g{ background:var(--dot-green); }
+  .term-title{ margin-left:8px; font-size:.72rem; color:var(--text-dim); letter-spacing:.02em; }
+  .term-body{ padding:22px 24px; font-size:.9rem; }
+  .term-body .ln{ margin-bottom:6px; }
+  .prompt{ color:var(--green); }
+  .prompt .path{ color:var(--cyan); }
+
+  /* ---------- header / nav ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:60;
+    background:rgba(10,14,13,.9); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{ max-width:1120px; margin:0 auto; padding:14px 32px; display:flex; align-items:center; justify-content:space-between; }
+  .nav-left{ display:flex; align-items:center; gap:10px; }
+  .nav-dots{ display:flex; gap:6px; }
+  .nav-dots span{ width:10px; height:10px; border-radius:50%; }
+  .nav-dots span:nth-child(1){ background:var(--red); } .nav-dots span:nth-child(2){ background:var(--yellow); } .nav-dots span:nth-child(3){ background:var(--dot-green); }
+  .nav-brand{ font-size:.78rem; color:var(--text-dim); }
+  .nav-brand b{ color:var(--text); font-weight:600; }
+  .navlinks{ display:flex; gap:26px; list-style:none; }
+  .navlinks a{ font-size:.78rem; color:var(--text-dim); transition:color .2s; }
+  .navlinks a:hover{ color:var(--green); }
+  .navtoggle{ display:none; background:none; border:1px solid var(--line); color:var(--text); width:36px; height:36px; cursor:pointer; }
+  @media(max-width:820px){
+    .navlinks{ display:none; position:absolute; top:56px; left:0; right:0; background:var(--bg); flex-direction:column; padding:20px 32px; gap:16px; border-bottom:1px solid var(--line); }
+    .navlinks.open{ display:flex; }
+    .navtoggle{ display:block; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero{ padding:130px 0 90px; }
+  .hero-grid{ display:grid; grid-template-columns:1.25fr .95fr; gap:36px; align-items:start; }
+  @media(max-width:900px){ .hero-grid{ grid-template-columns:1fr; } }
+  .hero .term-body{ min-height:250px; }
+  .hero-role{ margin-top:2px; }
+  .hero-cta{ display:flex; gap:14px; flex-wrap:wrap; margin-top:22px; }
+  .btn{
+    font-family:'JetBrains Mono',monospace; font-size:.82rem; padding:12px 20px; border-radius:5px;
+    border:1px solid var(--line); display:inline-flex; align-items:center; gap:8px; transition:all .25s ease;
+  }
+  .btn-solid{ background:var(--green); color:#04140a; border-color:var(--green); font-weight:600; }
+  .btn-solid:hover{ background:var(--cyan); border-color:var(--cyan); }
+  .btn-line{ color:var(--text); }
+  .btn-line:hover{ border-color:var(--green); color:var(--green); }
+
+  .webcam{ position:sticky; top:130px; }
+  .webcam .thumb{ aspect-ratio:3/4; overflow:hidden; background:#000; }
+  .webcam .thumb img{ width:100%; height:100%; object-fit:cover; object-position:center 14%; }
+  .webcam .term-title .rec{ color:var(--red); }
+
+  .hero-marquee{ overflow:hidden; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-top:60px; padding:14px 0; }
+  .hmt{ display:flex; gap:44px; width:max-content; animation:marquee 24s linear infinite; }
+  .hmt span{ font-size:.78rem; color:var(--text-faint); white-space:nowrap; }
+  .hmt span b{ color:var(--green-dim); }
+  @keyframes marquee{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+
+  /* ---------- sections ---------- */
+  section{ padding:100px 0; }
+  .sec-head{ margin-bottom:44px; }
+  .sec-cmd{ font-size:.85rem; color:var(--text-dim); margin-bottom:14px; }
+  .sec-cmd .prompt{ margin-right:6px; }
+  .sec-title{ font-size:clamp(1.5rem,3vw,2.1rem); font-weight:700; letter-spacing:-.01em; }
+  .sec-sub{ color:var(--text-dim); max-width:64ch; margin-top:14px; font-size:.92rem; }
+
+  /* ---------- about ---------- */
+  .about-grid{ display:grid; grid-template-columns:1fr 1.5fr; gap:44px; }
+  @media(max-width:820px){ .about-grid{ grid-template-columns:1fr; } }
+  .kv{ margin-bottom:26px; }
+  .kv .k{ color:var(--text-faint); font-size:.72rem; text-transform:uppercase; letter-spacing:.1em; display:block; margin-bottom:10px; }
+  .chip-row{ display:flex; flex-wrap:wrap; gap:9px; }
+  .chip{
+    font-size:.78rem; padding:7px 13px; border:1px solid var(--line); border-radius:4px; background:var(--bg-panel);
+    transition:border-color .2s, color .2s;
+  }
+  .chip:hover{ border-color:var(--green); color:var(--green); }
+  .chip::before{ content:"# "; color:var(--text-faint); }
+
+  /* ---------- projects ---------- */
+  .proj-row{
+    display:flex; justify-content:space-between; align-items:center; gap:20px;
+    padding:16px 0; border-bottom:1px solid var(--line); font-size:.88rem;
+  }
+  .proj-row .name{ color:var(--text); }
+  .proj-row .name::before{ content:"drwxr-xr-x  "; color:var(--text-faint); }
+  .proj-row .meta{ color:var(--text-faint); font-size:.76rem; white-space:nowrap; }
+
+  .proj-detail{ margin-top:44px; }
+  .proj-detail .term-title{ display:flex; align-items:center; gap:8px; }
+  .proj-detail .desc{ color:var(--text-dim); font-size:.9rem; max-width:70ch; margin:14px 0 20px; }
+  .proj-tags-inline{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:6px; }
+  .proj-tags-inline span{ font-size:.68rem; color:var(--cyan); border:1px solid var(--line); padding:4px 9px; border-radius:4px; }
+
+  .spec-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); margin:20px 0; }
+  .spec-item{ background:var(--bg-panel); padding:14px 16px; }
+  .spec-item .k{ font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; color:var(--text-faint); display:block; margin-bottom:6px; }
+  .spec-item .k::before{ content:"// "; }
+  .spec-item .v{ font-size:.85rem; color:var(--text); }
+
+  .gallery{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-top:20px; }
+  .gallery a{
+    display:block; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--bg-panel-hi);
+    transition:transform .3s ease, border-color .3s ease;
+  }
+  .gallery a:hover{ transform:translateY(-4px); border-color:var(--green); }
+  .gallery .thumb{ aspect-ratio:4/3; background:#f5f2ea; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .gallery .thumb img{ width:100%; height:100%; object-fit:contain; }
+  .gallery figcaption{
+    padding:9px 13px; border-top:1px solid var(--line); font-size:.68rem; color:var(--text-dim);
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .gallery figcaption .expand{ color:var(--text-faint); }
+  .gallery a:hover figcaption .expand{ color:var(--green); }
+
+  /* ---------- experience / education (log style) ---------- */
+  .split-two{ display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+  @media(max-width:820px){ .split-two{ grid-template-columns:1fr; } }
+  .log-title{ font-size:.72rem; color:var(--text-faint); text-transform:uppercase; letter-spacing:.1em; margin-bottom:16px; }
+  .log-item{ padding:14px 0; border-bottom:1px solid var(--line); font-size:.86rem; }
+  .log-item .tag{ color:var(--amber); font-size:.74rem; }
+  .log-item .role{ color:var(--text); font-weight:600; margin-top:4px; }
+  .log-item .org{ color:var(--cyan); font-size:.8rem; margin-top:2px; }
+  .log-item .desc{ color:var(--text-dim); font-size:.82rem; margin-top:8px; max-width:48ch; }
+
+  /* ---------- content / featured work ---------- */
+  .rec-row{ display:flex; align-items:center; gap:8px; margin-bottom:14px; font-size:.76rem; }
+  .rec-dot{ width:8px; height:8px; border-radius:50%; background:var(--red); animation:recpulse 1.4s infinite; }
+  @keyframes recpulse{ 0%,100%{opacity:1;} 50%{opacity:.25;} }
+
+  .video-embed{ position:relative; aspect-ratio:16/9; background:#000; }
+  .video-embed iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+  .video-caption{ display:flex; justify-content:space-between; align-items:baseline; padding:12px 16px; border-top:1px solid var(--line); flex-wrap:wrap; gap:6px; font-size:.82rem; }
+  .video-caption .vtag{ color:var(--green); font-size:.7rem; }
+
+  .clip-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:20px; }
+  @media(max-width:760px){ .clip-grid{ grid-template-columns:1fr; } }
+  .clip-card{
+    position:relative; aspect-ratio:4/5; border-radius:6px; overflow:hidden; border:1px solid var(--line);
+    background:var(--bg-panel-hi);
+    display:flex; flex-direction:column; justify-content:flex-end; padding:16px;
+    transition:transform .35s ease, border-color .35s ease;
+  }
+  .clip-card:hover{ transform:translateY(-6px); border-color:var(--green); }
+  .clip-card .play{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:46px; height:46px; border-radius:50%; border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; transition:all .3s;
+  }
+  .clip-card:hover .play{ background:var(--green); border-color:var(--green); }
+  .clip-card:hover .play svg{ fill:#04140a; }
+  .clip-card .vtag{ font-size:.68rem; color:var(--green); position:relative; z-index:1; }
+  .clip-card h4{ font-size:.88rem; margin-top:4px; position:relative; z-index:1; font-weight:600; }
+
+  .toolkit-row{ display:flex; flex-wrap:wrap; gap:9px; margin:18px 0; }
+
+  /* ---------- contact ---------- */
+  .contact-lines .ln{ font-size:.92rem; }
+  .contact-lines .k{ color:var(--text-dim); }
+  .contact-lines a{ color:var(--green); }
+  .contact-lines a:hover{ color:var(--cyan); }
+
+  footer{ border-top:1px solid var(--line); padding:30px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; font-size:.74rem; color:var(--text-faint); }
+  footer a:hover{ color:var(--green); }
+
+  :focus-visible{ outline:2px solid var(--green); outline-offset:2px; }
+  @media(prefers-reduced-motion:reduce){
+    *{ animation:none !important; transition:none !important; }
+    html{ scroll-behavior:auto; }
+    .reveal{ opacity:1 !important; transform:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="nav-left">
+      <div class="nav-dots"><span></span><span></span><span></span></div>
+      <div class="nav-brand"><b>Akinmoyero Bamidele</b></div>
+    </div>
+    <ul class="navlinks" id="navlinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#content">Content</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="navtoggle" id="navtoggle" aria-label="Toggle menu">☰</button>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="term reveal">
+        <div class="term-bar">
+          <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+          <span class="term-title">profile</span>
+        </div>
+        <div class="term-body">
+          <h1 style="font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; letter-spacing:-.01em; margin-bottom:14px;">Akinmoyero Bamidele</h1>
+          <div style="font-size:1rem; margin-bottom:6px;"><span class="accent">Embedded Systems Engineer</span></div>
+          <div style="font-size:1rem; margin-bottom:18px;"><span class="cyan">Video Editor &amp; Content Creator</span></div>
+          <p class="dim" style="max-width:48ch; margin-bottom:16px;">I design and build embedded systems — from PCB layout to firmware and IoT integration. I also shoot and edit short-form video, with an eye for pacing, sound design, and storytelling.</p>
+          <p class="dim" style="font-size:.85rem;">📍 Based in Lagos, Nigeria</p>
+        </div>
+      </div>
+
+      <div class="webcam reveal">
+        <div class="term">
+          <div class="term-bar">
+            <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+            <span class="term-title">photo</span>
+          </div>
+          <div class="thumb">
+            <img src="assets/headshot.jpg" alt="Portrait of Akinmoyero Bamidele">
+          </div>
+        </div>
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-solid">View Projects</a>
+          <a href="#content" class="btn btn-line">Watch My Work</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2 class="sec-title">What I work with</h2>
+      <p class="sec-sub">Two crafts, one instinct: find what's not working, and cut it — whether that's a bad edit or a bad circuit.</p>
+    </div>
+    <div class="about-grid reveal">
+      <div class="kv">
+        <span class="k">// languages</span>
+        <div class="chip-row">
+          <span class="chip">English</span><span class="chip">Yoruba</span><span class="chip">French</span>
+        </div>
+      </div>
+      <div class="kv">
+        <span class="k">// embedded systems toolkit</span>
+        <div class="chip-row">
+          <span class="chip">PCB Design</span><span class="chip">Embedded Systems</span>
+          <span class="chip">Industrial &amp; Home Automation</span><span class="chip">IoT</span>
+          <span class="chip">C Language</span><span class="chip">Python</span>
+          <span class="chip">MATLAB</span><span class="chip">PIC Microcontrollers</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2 class="sec-title">Selected engineering builds</h2>
+      <p class="sec-sub">Embedded and IoT systems designed end-to-end — from schematic and PCB to firmware and control logic.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="proj-row">
+        <span class="name">smart-home-automation-system/</span>
+        <span class="meta">IoT · Automation · Mobile Control</span>
+      </div>
+    </div>
+    <p class="dim reveal" style="font-size:.85rem; margin-top:14px; max-width:60ch;">Allows users to control home appliances from any location via their phone, with a fully automatic mode.</p>
+
+    <!-- HYDROPONIC GREENHOUSE MONITORING SYSTEM -->
+    <div class="proj-detail reveal">
+      <div class="term">
+        <div class="term-bar">
+          <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+          <span class="term-title">Hydroponic Greenhouse Monitor</span>
+        </div>
+        <div class="term-body">
+          <div class="proj-tags-inline"><span>ESP32-S3</span><span>Blynk</span><span>Automation</span></div>
+          <h3 style="font-size:1.3rem; margin-top:6px;">Hydroponic Greenhouse Monitoring System</h3>
+          <p class="desc">A soil-less hydroponic system built around an ESP32-S3 that monitors and automates the conditions plants need to grow. Environmental and nutrient-level sensors drive automatic climate and irrigation control, while a companion app gives full visibility and manual override from anywhere.</p>
+
+          <div class="spec-grid">
+            <div class="spec-item"><span class="k">core controller</span><span class="v">ESP32-S3</span></div>
+            <div class="spec-item"><span class="k">climate sensing</span><span class="v">BME280 — temperature, humidity &amp; pressure</span></div>
+            <div class="spec-item"><span class="k">ventilation</span><span class="v">Dual fans, auto-switched on temperature threshold</span></div>
+            <div class="spec-item"><span class="k">lighting</span><span class="v">LDR-based light sensing with automated grow light</span></div>
+            <div class="spec-item"><span class="k">nutrient delivery</span><span class="v">Liquid-fed (soil-less); ultrasonic level sensing with automated pump</span></div>
+            <div class="spec-item"><span class="k">remote control</span><span class="v">Live monitoring &amp; manual override via the Blynk app</span></div>
+            <div class="spec-item"><span class="k">local display</span><span class="v">Onboard 16×2 LCD</span></div>
+          </div>
+
+          <div class="gallery">
+            <a href="assets/projects/hydro-schematic.png" target="_blank" rel="noopener noreferrer">
+              <div class="thumb"><img src="assets/projects/hydro-schematic.png" alt="Hydroponic system schematic"></div>
+              <figcaption><span>schematic.png</span><span class="expand">↗ open</span></figcaption>
+            </a>
+            <a href="assets/projects/hydro-pcb.png" target="_blank" rel="noopener noreferrer">
+              <div class="thumb"><img src="assets/projects/hydro-pcb.png" alt="Hydroponic system PCB layout"></div>
+              <figcaption><span>pcb_layout.png</span><span class="expand">↗ open</span></figcaption>
+            </a>
+            <a href="assets/projects/hydro-board-1.jpg" target="_blank" rel="noopener noreferrer">
+              <div class="thumb"><img src="assets/projects/hydro-board-1.jpg" alt="Assembled hydroponic system board, top view"></div>
+              <figcaption><span>board_top.jpg</span><span class="expand">↗ open</span></figcaption>
+            </a>
+            <a href="assets/projects/hydro-board-2.jpg" target="_blank" rel="noopener noreferrer">
+              <div class="thumb"><img src="assets/projects/hydro-board-2.jpg" alt="Assembled hydroponic system board, alternate angle"></div>
+              <figcaption><span>board_alt.jpg</span><span class="expand">↗ open</span></figcaption>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SMART ENERGY MONITORING SYSTEM -->
+    <div class="proj-detail reveal">
+      <div class="term">
+        <div class="term-bar">
+          <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+          <span class="term-title">Smart Energy Monitoring System</span>
+        </div>
+        <div class="term-body">
+          <div class="proj-tags-inline"><span>PIC16F876A</span><span>ThingSpeak</span><span>PZEM-004T</span></div>
+          <h3 style="font-size:1.3rem; margin-top:6px;">Smart Energy Monitoring System</h3>
+          <p class="desc">A microcontroller-based energy monitor built around a PIC16F876A that measures key electrical parameters and pushes them to the cloud for remote tracking. An ESP8266 module handles connectivity, controlled by the PIC over UART using AT commands.</p>
+
+          <div class="spec-grid">
+            <div class="spec-item"><span class="k">core controller</span><span class="v">PIC16F876A</span></div>
+            <div class="spec-item"><span class="k">measurement</span><span class="v">PZEM-004T — voltage, current, power, energy, frequency &amp; power factor</span></div>
+            <div class="spec-item"><span class="k">connectivity</span><span class="v">ESP8266, driven via UART using AT commands</span></div>
+            <div class="spec-item"><span class="k">cloud logging</span><span class="v">Readings logged to ThingSpeak</span></div>
+            <div class="spec-item"><span class="k">local display</span><span class="v">Onboard LCD</span></div>
+          </div>
+
+          <div class="gallery">
+            <a href="assets/projects/energy-schematic.png" target="_blank" rel="noopener noreferrer">
+              <div class="thumb"><img src="assets/projects/energy-schematic.png" alt="Energy monitoring system schematic"></div>
+              <figcaption><span>schematic.png</span><span class="expand">↗ open</span></figcaption>
+            </a>
+            <a href="assets/projects/energy-pcb.png" target="_blank" rel="noopener noreferrer">
+              <div class="thumb"><img src="assets/projects/energy-pcb.png" alt="Energy monitoring system PCB layout"></div>
+              <figcaption><span>pcb_layout.png</span><span class="expand">↗ open</span></figcaption>
+            </a>
+            <a href="assets/projects/energy-3dview-cropped.png" target="_blank" rel="noopener noreferrer">
+              <div class="thumb"><img src="assets/projects/energy-3dview-cropped.png" alt="Energy monitoring system 3D board view"></div>
+              <figcaption><span>3d_view.png</span><span class="expand">↗ open</span></figcaption>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE + EDUCATION -->
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2 class="sec-title">Experience &amp; education</h2>
+    </div>
+    <div class="split-two">
+      <div class="reveal">
+        <div class="log-title">// experience</div>
+        <div class="log-item">
+          <div class="tag">[2024 — 2026]</div>
+          <div class="role">Embedded Engineer</div>
+          <div class="org">Opstep Engineering Ltd.</div>
+          <p class="desc">Left to gain professional experience as an entrepreneur, running a startup while continuing to apply embedded systems expertise.</p>
+        </div>
+        <div class="log-item">
+          <div class="tag">[2022 — 2024]</div>
+          <div class="role">Embedded Engineer</div>
+          <div class="org">Opstep Engineering Ltd.</div>
+          <p class="desc">Designed embedded projects, tutored students, and built complete embedded systems for clients and internal products.</p>
+        </div>
+        <div class="log-item">
+          <div class="tag">[2021 — 2022]</div>
+          <div class="role">Intern</div>
+          <div class="org">Opstep Engineering Ltd.</div>
+          <p class="desc">Spent over six months learning and practicing embedded circuit design, and learnt C for coding PIC microcontrollers.</p>
+        </div>
+      </div>
+      <div class="reveal" id="education">
+        <div class="log-title">// education</div>
+        <div class="log-item">
+          <div class="tag">[2025]</div>
+          <div class="role">MATLAB Onramp</div>
+          <div class="org">MATLAB</div>
+          <p class="desc">Completed an Introduction to MATLAB course covering the basics and essentials, including running basic simulations.</p>
+        </div>
+        <div class="log-item">
+          <div class="tag">[2023 — Present]</div>
+          <div class="role">B.Eng Mechanical Engineering</div>
+          <div class="org">Federal University of Technology, Minna</div>
+          <p class="desc">Five-year mechanical engineering programme; expected completion in 2028.</p>
+        </div>
+        <div class="log-item">
+          <div class="tag">[2022]</div>
+          <div class="role">B.Tech Mechanical Engineering (OND)</div>
+          <div class="org">Yaba College of Technology</div>
+          <p class="desc">Studied Mechanical Engineering at OND level before transferring to Federal University of Technology, Minna.</p>
+        </div>
+        <div class="log-item">
+          <div class="tag">[2017 — 2020]</div>
+          <div class="role">Senior School Certificate Examination</div>
+          <div class="org">Olu's College</div>
+          <p class="desc">Completed senior secondary education and sat the WAEC exams.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT CREATION -->
+<section id="content">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="rec-row"><span class="rec-dot"></span><span class="dim">// now editing</span></div>
+      <h2 class="sec-title">Featured work</h2>
+      <p class="sec-sub">Selected video edits — led by my football submission reel. Full catalog is on TikTok.</p>
+    </div>
+
+    <div class="term reveal">
+      <div class="term-bar">
+        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+        <span class="term-title">Featured Edit — Job Submission</span>
+      </div>
+      <div class="video-embed">
+        <iframe src="https://drive.google.com/file/d/162LOd-hFQklOMk73bjgMY8isGu5BV80e/preview" allow="autoplay; fullscreen" allowfullscreen title="Featured video edit by Akinmoyero Bamidele"></iframe>
+      </div>
+      <div class="video-caption">
+        <div><span class="vtag">⚽ featured edit</span><div>Football Highlight Reel — Submission Cut</div></div>
+        <a href="https://drive.google.com/file/d/162LOd-hFQklOMk73bjgMY8isGu5BV80e/view" target="_blank" rel="noopener noreferrer" class="cyan">Open video ↗</a>
+      </div>
+    </div>
+
+    <div class="clip-grid reveal">
+      <a href="https://www.tiktok.com/@cryste._" target="_blank" rel="noopener noreferrer" class="clip-card">
+        <span class="play" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="#d3ddd8"><path d="M8 5v14l11-7z"/></svg></span>
+        <div class="vtag">Neymar Edit</div>
+        <h4>Highlight Cut</h4>
+      </a>
+      <a href="https://www.tiktok.com/@cryste._" target="_blank" rel="noopener noreferrer" class="clip-card">
+        <span class="play" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="#d3ddd8"><path d="M8 5v14l11-7z"/></svg></span>
+        <div class="vtag">Luiz Díaz Edit</div>
+        <h4>Highlight Cut</h4>
+      </a>
+      <a href="https://www.tiktok.com/@cryste._" target="_blank" rel="noopener noreferrer" class="clip-card">
+        <span class="play" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="#d3ddd8"><path d="M8 5v14l11-7z"/></svg></span>
+        <div class="vtag">More Edits</div>
+        <h4>Full Catalog</h4>
+      </a>
+    </div>
+
+    <div class="kv reveal" style="margin-top:32px;">
+      <span class="k">// content creation toolkit</span>
+      <div class="toolkit-row">
+        <span class="chip">CapCut</span><span class="chip">Adobe After Effects</span><span class="chip">DaVinci Resolve</span>
+        <span class="chip">Adobe Photoshop</span><span class="chip">Adobe Premiere Pro</span>
+      </div>
+    </div>
+
+    <a class="btn btn-solid reveal" href="https://www.tiktok.com/@cryste._" target="_blank" rel="noopener noreferrer">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 5.82c-1.02-.9-1.65-2.2-1.65-3.63h-3.03v13.6c0 1.65-1.34 3-3 3s-3-1.35-3-3 1.34-3 3-3c.28 0 .55.04.8.11V9.9a6.02 6.02 0 0 0-.8-.05 6 6 0 1 0 6 6V9.4a8.6 8.6 0 0 0 4.71 1.4V7.77a4.85 4.85 0 0 1-3.03-1.95z"/></svg>
+      Watch on TikTok
+    </a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2 class="sec-title">Let's build something</h2>
+    </div>
+    <div class="term reveal">
+      <div class="term-bar">
+        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+        <span class="term-title">Contact</span>
+      </div>
+      <div class="term-body contact-lines">
+        <div class="ln"><span class="k">phone</span> ......... <a href="tel:+2347017080774">+234 701 708 0774</a></div>
+        <div class="ln"><span class="k">email</span> ......... <a href="mailto:ecryste@gmail.com">ecryste@gmail.com</a></div>
+        <div class="ln"><span class="k">location</span> ...... Based in Lagos, Nigeria</div>
+        <div class="ln"><span class="k">tiktok</span> ........ <a href="https://www.tiktok.com/@cryste._" target="_blank" rel="noopener noreferrer">@cryste._</a></div>
+        <div class="ln"><span class="k">reference</span> ..... Engnr Oke Opeyemi — CEO, Opstep Engineering Ltd.</div>
+        <div class="ln" style="padding-left:9.5ch;"><a href="tel:+2348029330366">+234 802 933 0366</a> · <a href="mailto:contact@opstep.com">contact@opstep.com</a></div>
+        <div class="ln" style="margin-top:14px;"><span class="cursor-blink"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; width:100%;">
+    <span>© <span id="year"></span> Akinmoyero Bamidele</span>
+    <span>Based in Lagos, Nigeria</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const toggle = document.getElementById('navtoggle');
+  const links = document.getElementById('navlinks');
+  toggle.addEventListener('click', () => links.classList.toggle('open'));
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold:.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
